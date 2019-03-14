@@ -39,8 +39,12 @@
                 </div>
             </div>
         </div>
-        
         <div class="row mt-md-4">
+            <div class="col-md-12">
+                <p class="text-right"><b>{{str(num_counted)}}/{{str(size)}}</b></p>
+            </div>
+        </div>
+        <div class="row mt-md-1">
             <div class="col-md-12">
                 <ul class="list-group">
                     % [ include('song_list_view.tpl', index=x, song=song) for x, song in enumerate(song_list) ]

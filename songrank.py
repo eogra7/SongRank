@@ -95,7 +95,12 @@ def insert_random(a, l=d["songs"]):
     
 #list_songs()
 
-
+def get_num_counted():
+    count = 0
+    for song in d["songs"]:
+        if(song.elo != 1500):
+            count = count + 1
+    return count
 
 
 @route('/static/<filepath:path>')
@@ -110,7 +115,8 @@ def index():
     insert_random(a)
     insert_random(b)
     song_list = sorted(d["songs"], key=lambda x: x.elo, reverse=True)
-    return template('index', song_pair=song_pair, song_list=song_list)
+    count = get_num_counted()
+    return template('index', song_pair=song_pair, song_list=song_list, num_counted=count, size=len(song_list))
     
 @post('/evaluate')
 def post_evaluate():

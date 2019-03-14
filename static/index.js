@@ -20,3 +20,26 @@ $('.song-card-b').click(function() {
         document.location.reload()
     });
 });
+
+
+$(document).keydown((event) => {
+    if(event.which == 37) {
+        var payload = {
+            winner: $('.song-card-a').attr('data'),
+            loser: $('.song-card-b').attr('data')
+        };        
+        jQuery.post('/evaluate', payload, function() { 
+            document.location.reload()
+        });
+    } else if(event.which == 39) {
+        var payload = {
+            winner: $('.song-card-b').attr('data'),
+            loser: $('.song-card-a').attr('data')
+        };        
+        jQuery.post('/evaluate', payload, function() { 
+            document.location.reload()
+        });
+    }
+    
+    
+})
