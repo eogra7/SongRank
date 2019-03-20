@@ -44,6 +44,27 @@ if "songs" not in d:
     import_songs("songs.txt")
     d.sync()
     print("Done!")
+    
+if "pairs" not in d:
+    print("Song pairs not found, generating...")
+    d["pairs"] = []
+    d.sync()
+
+if len(d["pairs"]) == 0:
+    print("Song pairs not found, generating...")
+    d["pairs"] = []
+    count = 0;
+    for idx, item in enumerate(d["songs"]):
+        for x in range(idx + 1, len(d["songs"]) - 2):
+            song_a = d["songs"][idx]
+            song_b = d["songs"][x]
+            pair = (song_a, song_b)
+            d["pairs"].append(pair)
+            count = count + 1;
+    print("Done! Generated %s pairs " % count)
+    random.shuffle(d["pairs"])
+    d.sync()
+
 
 def update_elo(winner_elo, loser_elo):
     """
@@ -109,14 +130,19 @@ def server_static(filepath):
 
 @route('/')
 def index():
-    a = d["songs"].pop()
-    b = d["songs"].pop()
-    song_pair = [a, b]
-    insert_random(a)
-    insert_random(b)
+    song_pair = ()
+    if(len(d["pairs"]) == 0):
+        song_pair = (d["songs"].pop(), d["songs"].pop())
+        insert_random(song_pair[0])
+        insert_random(song_pair[1])
+    else:
+        song_pair = d["pairs"].pop()
+    
+    a = song_pair[0]
+    b = song_pair[1]
     song_list = sorted(d["songs"], key=lambda x: x.elo, reverse=True)
     count = get_num_counted()
-    return template('index', song_pair=song_pair, song_list=song_list, num_counted=count, size=len(song_list))
+    return template('index', song_pair=song_pair, song_list=song_list, num_counted=count, size=len(song_list), left=len(d["pairs"]))
     
 @post('/evaluate')
 def post_evaluate():

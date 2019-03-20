@@ -41,7 +41,7 @@
         </div>
         <div class="row mt-md-4">
             <div class="col-md-12">
-                <p class="text-right"><b>{{str(num_counted)}}/{{str(size)}}</b></p>
+                <p class="text-right"><b>Pairs remaining: {{str(left)}}</b></p>
             </div>
         </div>
         <div class="row mt-md-1">
