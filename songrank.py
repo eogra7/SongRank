@@ -136,7 +136,8 @@ def index():
         insert_random(song_pair[0])
         insert_random(song_pair[1])
     else:
-        song_pair = d["pairs"].pop()
+        song_pair = d["pairs"][0]
+        
     
     a = song_pair[0]
     b = song_pair[1]
@@ -146,7 +147,6 @@ def index():
     
 @post('/evaluate')
 def post_evaluate():
-    print("got here")
     winner_id = int(request.forms.get('winner'))
     loser_id = int(request.forms.get('loser'))
     winner = Song("")
@@ -164,6 +164,12 @@ def post_evaluate():
     print("winner: %s" % winner.name)
     print("loser: %s" % loser.name)
     if winner is not None and loser is not None:
+        for pair in d["pairs"]:
+            song_pair = ();
+            if ((pair[0].name == winner.name) and (pair[1].name == loser.name)) or ((pair[1].name == winner.name) and (pair[0].name == loser.name)):
+                d["pairs"].remove(pair)
+                break
+                
         faceoff(winner, loser)
         print("faceoff %s %s" % (winner_id, loser_id))
         return 'ok'

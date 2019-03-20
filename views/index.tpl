@@ -20,9 +20,22 @@
             <div class="col-md-4">
                 <div class="card song-card-a" data="{{song_pair[0].id}}">
                     % include('placeholder.tpl')
+
                     <div class="card-body">
+                    <%
+                    count0 = 0
+                    for i in song_pair[0].name:
+                        if i == '-':
+                            count0 = count0 + 1
+                        end
+                    end
+                    %>
+                    % if count0 > 1:
+                        <p class="card-text">{{song_pair[0].name}}</p>
+                    % else:
                         <p class="card-text">{{song_pair[0].artist()}}</p>
                         <h5 class="card-title">{{song_pair[0].title()}}</h5>
+                    % end
                     </div>
                 </div>
             </div>
@@ -33,8 +46,20 @@
                 <div class="card song-card-b" data="{{song_pair[1].id}}">
                     % include('placeholder.tpl')
                     <div class="card-body">
-                        <p class="card-text">{{song_pair[1].artist()}}</p>
-                        <h5 class="card-title">{{song_pair[1].title()}}</h5>
+                        <%
+                        count1 = 0
+                        for i in song_pair[1].name:
+                           if i == '-':
+                               count1 = count1 + 1
+                           end
+                        end
+                        %>
+                        % if count1 > 1:
+                            <p class="card-text">{{song_pair[1].name}}</p>
+                        % else:
+                            <p class="card-text">{{song_pair[1].artist()}}</p>
+                            <h5 class="card-title">{{song_pair[1].title()}}</h5>
+                        % end
                     </div>
                 </div>
             </div>
