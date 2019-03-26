@@ -97,6 +97,7 @@ def faceoff(a, b):
     
 def insert_random(a, l=d["songs"]):
     l.insert(random.randrange(0, len(l)-1), a)
+    d.sync()
         
 
 # random.shuffle(d["songs"])
@@ -138,7 +139,6 @@ def index():
     else:
         song_pair = d["pairs"][0]
         
-    
     a = song_pair[0]
     b = song_pair[1]
     song_list = sorted(d["songs"], key=lambda x: x.elo, reverse=True)
@@ -168,6 +168,7 @@ def post_evaluate():
             song_pair = ();
             if ((pair[0].name == winner.name) and (pair[1].name == loser.name)) or ((pair[1].name == winner.name) and (pair[0].name == loser.name)):
                 d["pairs"].remove(pair)
+                d.sync()
                 break
                 
         faceoff(winner, loser)
